@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bilue Pty Ltd. All rights reserved.
 //
 
+#define DEVICE_PATH @"/dev/cu.usbserial-AI02KQN0"
+
 #import "ViewController.h"
 
 @interface ViewController ()
@@ -19,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cardData = [NSMutableData data];
-    ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.usbserial-AI02KQN0"];
+    ORSSerialPort *port = [ORSSerialPort serialPortWithPath:DEVICE_PATH];
     
     port.baudRate = @(9600);
     port.parity = ORSSerialPortParityNone;
@@ -41,7 +43,7 @@
 
 
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort {
-
+    [serialPort close];
 }
 
 
@@ -55,7 +57,7 @@
     [self.cardData appendData:data];
     if (self.cardData.length >= 16) {
         self.textField.stringValue = [[NSString alloc] initWithData:self.cardData encoding:NSUTF8StringEncoding];
-        self.cardData = [NSMutableData dataWithCapacity:16];
+        self.cardData = [NSMutableData data];
     }
 }
 
