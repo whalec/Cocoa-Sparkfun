@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ORSSerialPort.h"
 
-@interface ViewController : NSViewController
+@interface ViewController : NSViewController <ORSSerialPortDelegate>
 
+@property (weak, readwrite) IBOutlet NSTextField *textField;
 
 @end
 
